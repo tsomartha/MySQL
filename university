@@ -29,7 +29,7 @@ CID INT NOT NULL AUTO_INCREMENT,
 Title VARCHAR(45) NOT NULL,
 KK INT NOT NULL,
 PRIMARY KEY (CID),
-CONSTRAINT fk_Course_Professor 
+CONSTRAINT fk_Course_Professor -- βοηθά στην ευκολότερη αναφορά, διαγραφή ή τροποποίηση του περιορισμού (ALTER TABLE ή DROP CONSTRAINT).
 FOREIGN KEY (KK) REFERENCES university.Professor (KK) 
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
