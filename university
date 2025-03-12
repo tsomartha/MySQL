@@ -1,0 +1,79 @@
+CREATE SCHEMA `university`;
+USE `university`;
+
+
+-- Table university.Student;
+
+CREATE TABLE university.Student (
+AM INT NOT NULL AUTO_INCREMENT, 
+Firstname VARCHAR(45) NOT NULL, 
+Lastname VARCHAR(45) NOT NULL, 
+YearOfStudy INT NOT NULL,
+PRIMARY KEY (AM) );
+
+
+-- Table university.Professor
+
+CREATE TABLE university.Professor (
+KK INT NOT NULL AUTO_INCREMENT,
+ Firstname VARCHAR(45) NOT NULL, 
+ Lastname VARCHAR(45) NOT NULL, 
+ PRIMARY KEY (KK)
+);
+
+
+-- Table university.Course
+
+CREATE TABLE university.Course (
+CID INT NOT NULL AUTO_INCREMENT, 
+Title VARCHAR(45) NOT NULL,
+KK INT NOT NULL,
+PRIMARY KEY (CID),
+CONSTRAINT fk_Course_Professor 
+FOREIGN KEY (KK) REFERENCES university.Professor (KK) 
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+);
+
+-- Table university.Exam
+
+CREATE TABLE university.Exam (
+AM INT NOT NULL,
+Cid INT NOT NULL,
+Date DATE NOT NULL,
+Grade FLOAT NOT NULL,
+PRIMARY KEY (AM, Cid, Date),
+CONSTRAINT fk_Student_Exam
+FOREIGN KEY (AM) REFERENCES university.Student (AM)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+CONSTRAINT fk_Exam_Course FOREIGN KEY (Cid)
+REFERENCES university.Course (CID) ON DELETE NO ACTION
+ON UPDATE NO ACTION
+);
+
+-- Table university.Telephone
+CREATE TABLE university.Telephone (
+AM INT NOT NULL,
+TelephoneNumber VARCHAR(10) NOT NULL,
+ PRIMARY KEY (TelephoneNumber, AM), 
+ CONSTRAINT fk_Telephone_Student
+FOREIGN KEY (AM) REFERENCES university.Student (AM) ON DELETE NO ACTION
+ON UPDATE NO ACTION
+);
+
+
+-- Table `university`.`Requires`
+
+CREATE TABLE university.Requires (
+Cid1 INT NOT NULL,
+Cid2 INT NOT NULL,
+PRIMARY KEY (Cid1, Cid2), 
+CONSTRAINT fk_CourseA_Requires
+FOREIGN KEY (Cid1)
+REFERENCES university.Course (CID) ON DELETE NO ACTION
+ON UPDATE NO ACTION,
+CONSTRAINT fk_Requires_CourseB FOREIGN KEY (Cid2)
+REFERENCES university.Course (CID) ON DELETE NO ACTION
+ON UPDATE NO ACTION
+);
