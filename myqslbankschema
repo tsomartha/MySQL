@@ -1,0 +1,40 @@
+CREATE TABLE Phones ( cid INT,
+pnum CHAR(10),
+PRIMARY KEY (cid, pnum),
+FOREIGN KEY (cid) REFERENCES Customer (cid) ON DELETE RESTRICT
+ON UPDATE CASCADE
+);
+
+CREATE TABLE Account (
+accid BIGINT COMMENT 'This is the way to add comment: BIGINT for scalability', balance FLOAT NOT NULL DEFAULT 0,
+dateOfCreation DATE NOT NULL,
+PRIMARY KEY (accid)
+);
+
+CREATE TABLE Owns ( cid INT,
+accid BIGINT,
+PRIMARY KEY (cid, accid),
+FOREIGN KEY (cid) REFERENCES Customer (cid) ON DELETE RESTRICT
+ON UPDATE CASCADE,
+FOREIGN KEY (accid) REFERENCES Account (accid) ON DELETE RESTRICT
+ON UPDATE CASCADE
+);
+
+CREATE TABLE Action ( accid BIGINT,
+actid INT,
+amount FLOAT NOT NULL DEFAULT 0,
+type TINYINT NOT NULL DEFAULT 0, dateOfAction DATE NOT NULL,
+PRIMARY KEY (accid, actid),
+FOREIGN KEY (accid) REFERENCES Account (accid) ON DELETE RESTRICT
+ON UPDATE CASCADE
+);
+
+CREATE TABLE Transfer ( accidSource BIGINT,
+actidSource INT,
+accidDest BIGINT,
+actidDest INT,
+PRIMARY KEY (accidSource, actidSource, accidDest, actidDest),
+FOREIGN KEY (accidSource, actidSource) REFERENCES Action (accid, actid) ON DELETE RESTRICT ON UPDATE CASCADE,
+FOREIGN KEY (accidDest, actidDest) REFERENCES Action (accid, actid)
+ON DELETE RESTRICT ON UPDATE CASCADE
+);
